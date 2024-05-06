@@ -1,23 +1,41 @@
 {
   "development": {
-    "username": "postgres",
-    "password": "Nguyenkhanghy@3112",
-    "database": "NewCrabsDb",
-    "host": "127.0.0.1",
-    "dialect": "postgres"
+    "username": "newscrabs_database_user",
+    "password": "sX5xmLNrTRUx2oKYc9U4X1tktyBk34sh",
+    "database": "newscrabs_database",
+    "host": "dpg-cos631vsc6pc73e11rkg-a.oregon-postgres.render.com",
+    "dialect": "postgres",
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
   },
   "test": {
-    "username": "root",
-    "password": null,
-    "database": "database_test",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
+    "username": "newscrabs_database_user",
+    "password": "sX5xmLNrTRUx2oKYc9U4X1tktyBk34sh",
+    "database": "newscrabs_database",
+    "host": "dpg-cos631vsc6pc73e11rkg-a.oregon-postgres.render.com",
+    "dialect": "postgres",
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
   },
   "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
+    "username": "newscrabs_database_user",
+    "password": "sX5xmLNrTRUx2oKYc9U4X1tktyBk34sh",
+    "database": "newscrabs_database",
+    "host": "dpg-cos631vsc6pc73e11rkg-a.oregon-postgres.render.com",
+    "dialect": "postgres",
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
   }
 }

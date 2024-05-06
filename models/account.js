@@ -13,6 +13,12 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Account.belongsTo(models.Gender, { foreignKey: 'genderId' });
       Account.belongsTo(models.Role, { foreignKey: 'roleId' })
+      Account.hasMany(models.OTP, { foreignKey: 'receiverId' })
+      Account.hasMany(models.LinkedAccount, { foreignKey: 'accountId' })
+      Account.hasOne(models.CommercialAccount, { foreignKey: 'accountId' })
+      Account.hasMany(models.Payment, { foreignKey: 'ownerId' })
+      Account.hasOne(models.Vehicle, { foreignKey: 'ownerId' })
+      Account.hasMany(models.RideRequest, { foreignKey: 'seekerId' })
     }
   }
   Account.init({
