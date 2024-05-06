@@ -4,4 +4,4 @@ Welcome to NewCrabsServer! This repository hosts the backend server code for our
 
 ## Overview
 
-NewCrabsServer is a backend server designed to support NewScrabs.
+NewCrabsServer is a backend server designed to support NewCrabs.
