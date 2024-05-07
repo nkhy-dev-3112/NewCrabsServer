@@ -16,10 +16,10 @@ router.get('/', (req, res) => {
     });
 })
 
-router.use('/account-service', require('./account-service.gateway'));
-router.use('/contact-service', require('./contact-service.gateway'));
-router.use('/ride-service', require('./ride-service.gateway'));
-router.use('/statistics-service', require('./statistics-service.gateway'));
-router.use('/transaction-service', require('./transaction-service.gateway'));
+router.use('/account', require('./account.gateway'));
+router.use('/contact', require('./contact.gateway'));
+router.use('/ride', require('./ride.gateway'));
+router.use('/statistics', require('./statistics.gateway'));
+router.use('/transaction', require('./transaction.gateway'));
 
 module.exports = router;
