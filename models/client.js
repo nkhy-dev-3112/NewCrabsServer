@@ -12,9 +12,14 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Client.belongsTo(models.CommercialAccount, { foreignKey: 'uid' }, this.primaryKeyAttribute);
+      Client.hasMany(models.Feedback, { foreignKey: 'uid' })
     }
   }
   Client.init({
+    uid: {
+      type: DataTypes.INTEGER,
+      primaryKey: true
+    },
     email: DataTypes.STRING
   }, {
     sequelize,

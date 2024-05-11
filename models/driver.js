@@ -16,6 +16,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Driver.init({
+    uid: {
+      type: DataTypes.INTEGER,
+      primaryKey: true
+    },
     personalId: DataTypes.STRING(50),
     driverLicense: DataTypes.STRING(50),
     phoneContact: DataTypes.STRING
