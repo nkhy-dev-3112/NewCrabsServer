@@ -12,15 +12,15 @@ indexController.welcome = (req, res) => {
     })
 }
 
-indexController.login = (req, res) => {
+indexController.login = async (req, res) => {
     // Get the strategy code from the request
-    const strategy = req.query.strategy;
+    const strategy = req.query.s;
     auth.setStrategy(strategy);
-    auth.login(req, res);
+    await auth.login(req, res);
 }
 
 indexController.signup = async (req, res) => {
-    console.log(req.body);
+    // console.log(req.body);
 
     const strategy = req.query.s;
     auth.setStrategy(strategy);

@@ -27,7 +27,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: false,
+      secure: false,  // Set this attribute as true only in production evironment
       httpOnly: true,
       maxAge: 60 * 60 * 1000,
     },
