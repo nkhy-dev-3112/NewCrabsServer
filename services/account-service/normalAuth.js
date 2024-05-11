@@ -55,7 +55,6 @@ class NormalAuth {
     }
 
     async createClientAccount(uid, data, response) {
-        console.log(uid)
         await models.CommercialAccount.create({
             accountId: uid,
             phone: data.body.phone
@@ -63,7 +62,7 @@ class NormalAuth {
             response.code = 110
             await models.Client.create({
                 uid: uid,
-                email: data.email
+                email: data.body.email
             }).then(data => {
                 response.code = 111
             }).catch ((err) => {
