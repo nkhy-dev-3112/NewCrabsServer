@@ -19,4 +19,12 @@ indexController.login = (req, res) => {
     auth.login(req, res);
 }
 
+indexController.signup = async (req, res) => {
+    console.log(req.body);
+
+    const strategy = req.query.s;
+    auth.setStrategy(strategy);
+    await auth.signup(req, res);
+}
+
 module.exports = indexController;

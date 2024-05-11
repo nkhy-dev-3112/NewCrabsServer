@@ -29,6 +29,9 @@ class Authenticate{
         this.strategy.login(req, res);  
     }
 
+    async signup(req, res) {
+        await this.strategy.signup(req, res);
+    }
     
 
 }
