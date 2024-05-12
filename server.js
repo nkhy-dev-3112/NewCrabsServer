@@ -113,6 +113,31 @@ app.post('/otp', (req, res)=>{
   }
 })
 
+app.post('/createAccount', async (req, res)=>{
+  const password = req.body.password;
+  const fullname = req.body.fullname;
+  const dob = req.body.dob;
+  const username = req.body.username;
+  const genderId = req.body.genderId;
+  const roleId = req.body.roleId;
+  
+  const ok = false;
+  if(req.body.roleId == 3 || req.body.roleId == 4){
+    const newHashedPassword = await bcrypt.hash(password, 10);
+    await Account.create({
+      fullname: fullname,
+      password: newHashedPassword,
+      dob: dob,
+      username: username,
+      genderId: genderId,
+      roleId: roleId
+    });
+    if(ok){
+      res.send(ok);
+    }
+  }
+})
+
 app.post('/createClientAccount', async (req, res)=>{
   const password = req.body.password;
   const fullname = req.body.fullname;
