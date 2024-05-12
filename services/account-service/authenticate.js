@@ -28,7 +28,7 @@ class Authenticate{
         const authRes = await this.strategy.login(req);
         console.log(authRes)
         if (authRes.isAuthenticated) {
-            req.session.user = {uid: authRes.user.id, username: authRes.user.username}
+            req.session.user = {uid: authRes.user.id, username: authRes.user.username, scope: authRes.user.roleId}
             res.json({
                 isAuthenticated: true,
                 scope: authRes.user.roleId,
@@ -49,6 +49,14 @@ class Authenticate{
 
     static requireUser(req, res, next, usercode) {
         if (req.session && req.session.user && req.session.scope === usercode) {
+            return next();
+        } else {
+            res.status(401).json({ error: 'Unauthorized or not a suitable type of account!' });
+        }
+    }
+    static requireDriver(req, res, next) {
+        if (req.session && req.session.user && req.session.user.scope === 2) {
+            console.log(req.session.user.scope);
             return next();
         } else {
             res.status(401).json({ error: 'Unauthorized or not a suitable type of account!' });
