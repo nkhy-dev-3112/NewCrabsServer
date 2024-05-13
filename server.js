@@ -27,7 +27,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: false,
+      secure: false,  // Set this attribute as true only in production evironment
       httpOnly: true,
       maxAge: 60 * 60 * 1000,
     },
@@ -110,6 +110,31 @@ app.post('/signUp', (req, res) => {
 app.post('/otp', (req, res)=>{
   if(req.body.otp == '0999'){
     res.redirect('createAccount')
+  }
+})
+
+app.post('/createAccount', async (req, res)=>{
+  const password = req.body.password;
+  const fullname = req.body.fullname;
+  const dob = req.body.dob;
+  const username = req.body.username;
+  const genderId = req.body.genderId;
+  const roleId = req.body.roleId;
+  
+  const ok = false;
+  if(req.body.roleId == 3 || req.body.roleId == 4){
+    const newHashedPassword = await bcrypt.hash(password, 10);
+    await Account.create({
+      fullname: fullname,
+      password: newHashedPassword,
+      dob: dob,
+      username: username,
+      genderId: genderId,
+      roleId: roleId
+    });
+    if(ok){
+      res.send(ok);
+    }
   }
 })
 
