@@ -26,11 +26,14 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true
-    }
+    },
+    customerName: DataTypes.STRING(50),
+    customerPhone: DataTypes.STRING(10)
   }, {
     sequelize,
     modelName: 'RideRequest',
     timestamps: false
   });
+  
   return RideRequest;
 };

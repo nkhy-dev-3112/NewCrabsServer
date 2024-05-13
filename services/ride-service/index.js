@@ -2,7 +2,7 @@
 
 const indexController = {};
 const models = require('../../models')
-
+const LocationController = require('./locationController')
 
 // Greeting
 indexController.welcome = (req, res) => {
@@ -32,6 +32,22 @@ indexController.registerVehicle = async (req, res) => {
         })
     })
     
+}
+
+indexController.searchLocation = async (req, res) => {
+    await LocationController.searchLocation(req, res)
+}
+
+indexController.updateUnit = async (req, res) => {
+    await LocationController.updateTerritorialUnit(req, res);
+}
+
+indexController.createLocation = async (req, res) => {
+    await LocationController.addLocation(req, res)
+}
+
+indexController.geocode = async (req, res) =>  {
+    await LocationController.geocoding(req, res);
 }
 
 module.exports = indexController;
