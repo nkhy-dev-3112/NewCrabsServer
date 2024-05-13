@@ -68,6 +68,21 @@ class Authenticate{
         await this.strategy.signup(req, res);
     }
     
+    signout(req, res) {
+        req.session.destroy((err) => {
+            if (err) {
+                res.json({
+                    code: 200,
+                    message: "Error destroying session",
+                    detail: err.message
+                })
+            }
+            res.json({
+                code: 100,
+                message: "Logout successfully"
+            })
+        })
+    }
 
 }
 

@@ -1,5 +1,7 @@
 'use strict'
 
+const { where } = require('sequelize');
+const { Op } = require('sequelize');
 const models = require('../../models')
 const baseURL = 'https://nominatim.openstreetmap.org/search?addressdetails=1&namedetails=1&format=jsonv2'
 
@@ -7,11 +9,37 @@ class LocationController {
 
     static async searchLocationOnDb(req, res) {
         const queryString = req.query.q;
+        const response = []
+
+        await models.Location.findAll({
+            where: {
+                [Op.or]: [
+                    {
+                        fullAddress: {[Op.iLike]: `%${queryString}%`}
+                    },
+                    {
+                        name: {[Op.iLike]: `%${queryString}%`}
+                    }
+                ]
+            }
+        }).then(data => {
+            for(const item of data) {
+                response.push(item.dataValues)
+            }    
+            res.json({
+                data: response
+            })
+        }).catch(err => {
+            res.json({
+                message: "Got the error",
+                detail: err.message
+            })
+        })        
 
     }
 
     static async geocoding(req, res) {
-        const url = `${baseURL}&amenity=${req.query.amenity ? req.query.amenity : ''}&country=${req.query.country ? req.query.country : ''}&street=${req.query.street ? req.query.street : ''}&city=${req.query.city ? req.query.city : ''}&state=${req.query.state ? req.query.state : ''}`;
+        const url = `${baseURL}&amenity=${req.query.amenity ? req.query.amenity : ''}&country=${req.query.country ? req.query.country : ''}&street=${req.query.street ? req.query.street : ''}&city=${req.query.city ? req.query.city : ''}&state=${req.query.state ? req.query.state : ''}&county=${req.query.county ? req.query.county : ''}`;
         console.log(url)
         fetch(url).then(response => {
             if (!response.ok) {
@@ -103,45 +131,89 @@ class LocationController {
         })
     }
 
-    // static async updateTerritorialUnit(req, res) {
+    static async updateTerritorialUnit(req, res) {
 
-    //     const areaData = require('../../area.db.json');
+        const areaData = require('../../area.db.json');
 
-    //     await models.TerriorialUnit.create({
-    //         unitId: 84,
-    //         parentId: null,
-    //         name: "Viet Nam",
-    //         level: 0
-    //     })
+        await models.TerriorialUnit.create({
+            unitId: 84,
+            parentId: null,
+            name: "Viet Nam",
+            level: 0
+        })
 
-    //     await models.TerriorialUnit.create({
-    //         unitId: 79,
-    //         parentId: 84,
-    //         name: "Ho Chi Minh City",
-    //         level: 1
-    //     })
+        await models.TerriorialUnit.create({
+            unitId: 79,
+            parentId: 84,
+            name: "Ho Chi Minh City",
+            level: 1
+        })
 
-    //     const disctricts = areaData.district.filter(item => item.idProvince === '79')
-    //     await disctricts.forEach(async element => {
-    //         await models.TerriorialUnit.create({
-    //             unitId: parseInt(element.idDistrict),
-    //             parentId: 79,
-    //             name: element.name,
-    //             level: 2
-    //         })
-    //         const communes = areaData.commune.filter(item => item.idDistrict === element.idDistrict)
-    //         await communes.forEach(async commune => {
-    //             await models.TerriorialUnit.create({
-    //                 unitId: parseInt(commune.idCommune),
-    //                 parentId: parseInt(element.idDistrict),
-    //                 name: commune.name,
-    //                 level: 3
-    //             })
-    //         });
-    //     });
+        const disctricts = areaData.district.filter(item => item.idProvince === '79')
+        await disctricts.forEach(async element => {
+            await models.TerriorialUnit.create({
+                unitId: parseInt(element.idDistrict),
+                parentId: 79,
+                name: element.name,
+                level: 2
+            })
+            const communes = areaData.commune.filter(item => item.idDistrict === element.idDistrict)
+            await communes.forEach(async commune => {
+                await models.TerriorialUnit.create({
+                    unitId: parseInt(commune.idCommune),
+                    parentId: parseInt(element.idDistrict),
+                    name: commune.name,
+                    level: 3
+                })
+            });
+        });
 
-    //     res.json("done")
-    // }
+        res.json("done")
+    }
+
+    static async territorial(req, res) {
+        const result = [];
+        const q = req.query.q;
+        const getChild = req.query.getChild;
+        const getBy = req.query.getBy;
+
+        if (getBy == 'name') {
+            const data = await models.TerriorialUnit.findAll({
+                where: { name: { [Op.like]: `%${q}%` } }
+            });
+            for (const item of data) {
+                var temp = item.dataValues;
+                if (getChild == 1) {
+                    temp.children = [];
+                    const children = await models.TerriorialUnit.findAll({
+                        where: { parentId: temp.unitId }
+                    });
+                    for (const child of children) {
+                        temp.children.push(child.dataValues);
+                    }
+                }
+                result.push(temp);
+            }
+        } else if (getBy == 'id') {
+            const data = await models.TerriorialUnit.findOne({
+                where: { unitId: q }
+            });
+            var temp = data.dataValues;
+            if (getChild == 1) {
+                temp.children = [];
+                const children = await models.TerriorialUnit.findAll({
+                    where: { parentId: temp.unitId }
+                });
+                for (const child of children) {
+                    temp.children.push(child.dataValues);
+                }
+            }
+            result.push(temp);
+        }
+        res.json({
+            result
+        });     
+    }
 
 }
 

@@ -35,7 +35,7 @@ indexController.registerVehicle = async (req, res) => {
 }
 
 indexController.searchLocation = async (req, res) => {
-    await LocationController.searchLocation(req, res)
+    await LocationController.searchLocationOnDb(req, res)
 }
 
 indexController.updateUnit = async (req, res) => {
@@ -48,6 +48,10 @@ indexController.createLocation = async (req, res) => {
 
 indexController.geocode = async (req, res) =>  {
     await LocationController.geocoding(req, res);
+}
+
+indexController.territorial = async (req, res) => {
+    await LocationController.territorial(req, res)
 }
 
 module.exports = indexController;

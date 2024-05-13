@@ -83,7 +83,10 @@ class NormalAuth {
                     await this.createDriverAccount(data.dataValues.id, req, response)
                     break
                 }
-                case 3,4: {
+                case 3: {
+                    break;
+                }
+                case 4: {
                     break;
                 }
                 default: {
