@@ -48,19 +48,28 @@ class Authenticate{
     }
 
     static requireUser(req, res, next, usercode) {
-        if (req.session && req.session.user && req.session.scope === usercode) {
+        console.log(req.session)
+        console.log(usercode)
+        if (req.session && req.session.user && req.session.user.scope === usercode) {
             return next();
         } else {
             res.status(401).json({ error: 'Unauthorized or not a suitable type of account!' });
         }
     }
     static requireDriver(req, res, next) {
-        if (req.session && req.session.user && req.session.user.scope === 2) {
-            console.log(req.session.user.scope);
-            return next();
-        } else {
-            res.status(401).json({ error: 'Unauthorized or not a suitable type of account!' });
-        }
+        Authenticate.requireUser(req, res, next, 2)
+    }
+
+    static requireClient(req, res, next) {
+        Authenticate.requireUser(req, res, next, 1)
+    }
+
+    static requireCenterOfficer(req, res, next) {
+        Authenticate.requireUser(req, res, next, 3)
+    }
+
+    static requireAdmin(req, res, next) {
+        Authenticate.requireUser(req, res, next, 4)
     }
 
 

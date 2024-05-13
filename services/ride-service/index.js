@@ -3,6 +3,7 @@
 const indexController = {};
 const models = require('../../models')
 const LocationController = require('./locationController')
+const CostController = require('./costController')
 
 // Greeting
 indexController.welcome = (req, res) => {
@@ -52,6 +53,14 @@ indexController.geocode = async (req, res) =>  {
 
 indexController.territorial = async (req, res) => {
     await LocationController.territorial(req, res)
+}
+
+indexController.addCost = async (req, res) => {
+    await CostController.add(req, res)
+}
+
+indexController.getCost = async (req, res) => {
+    await CostController.get(req, res)
 }
 
 module.exports = indexController;
