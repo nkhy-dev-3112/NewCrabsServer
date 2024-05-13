@@ -18,7 +18,10 @@ module.exports = (sequelize, DataTypes) => {
   }
   CommercialAccount.init({
 
-    phone: DataTypes.STRING(10),
+    phone: {
+      type: DataTypes.STRING(10),
+      unique: true
+    },
     accountId: {
       type: DataTypes.INTEGER,
       primaryKey: true

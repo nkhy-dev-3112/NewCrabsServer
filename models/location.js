@@ -21,12 +21,17 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Location.init({
-    locationId: DataTypes.INTEGER,
+    locationId: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
     lng: DataTypes.DOUBLE,
     lat: DataTypes.DOUBLE,
     streetNumber: DataTypes.STRING(50),
     name: DataTypes.STRING(400),
-    street: DataTypes.STRING(100)
+    street: DataTypes.STRING(100),
+    fullAddress: DataTypes.STRING(400)
   }, {
     sequelize,
     modelName: 'Location',
