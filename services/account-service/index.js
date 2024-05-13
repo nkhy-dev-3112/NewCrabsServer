@@ -37,4 +37,8 @@ indexController.updateProfile = async (req, res) => {
     res.json(val);
 }
 
+indexController.signout = (req, res) => {
+    auth.signout(req, res)
+}
+
 module.exports = indexController;

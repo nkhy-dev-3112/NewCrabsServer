@@ -9,4 +9,5 @@ router.get('/', indexController.welcome);
 router.post('/login', indexController.login);
 router.post('/signup', indexController.signup);
 router.post('/updateProfile',auth.requireAuthenticated, indexController.updateProfile);
+router.get('/signout', auth.requireAuthenticated, indexController.signout);
 module.exports = router;
