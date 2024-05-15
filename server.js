@@ -6,10 +6,17 @@ const cookiesParser = require('cookie-parser');
 const session = require('express-session');
 const passport = require('passport');
 var bodyParser = require('body-parser')
+const cors = require('cors')
 var path = require('path')
 const app = express();
 const port = process.env.port || 3000;
 
+const corsOptions = {
+  origin: ['http://127.0.0.1:4000', 'http://localhost:4000'],
+  credentials: true
+}
+
+app.use(cors(corsOptions))
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(cookiesParser("COOKIE_SECRET"));
@@ -22,6 +29,7 @@ app.use(
       secure: false,  // Set this attribute as true only in production evironment
       httpOnly: true,
       maxAge: 60 * 60 * 1000,
+      sameSite: 'Lax' // or 'Strict' or 'None' depending on your needs
     },
   })
 );
