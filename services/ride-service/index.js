@@ -5,6 +5,7 @@ const models = require('../../models')
 const LocationController = require('./locationController')
 const CostController = require('./costController')
 
+
 // Greeting
 indexController.welcome = (req, res) => {
     res.json({
