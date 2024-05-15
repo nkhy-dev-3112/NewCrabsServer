@@ -19,10 +19,19 @@ var CommercialAccount = require('./models').CommercialAccount;
 var Vehicle = require('./models').Vehicle;
 const port = process.env.port || 3000;
 
+const allowedOrigins = ['http://127.0.0.1:4000', 'http://localhost:4000'];
+
 const corsOptions = {
-  origin: ['http://127.0.0.1:4000', 'http://localhost:4000'],
+  origin: function (origin, callback) {
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true
 }
+
 
 app.use(cors(corsOptions))
 app.use(express.static(path.join(__dirname, 'public')));
