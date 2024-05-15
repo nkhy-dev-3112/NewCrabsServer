@@ -1,20 +1,20 @@
 'use strict'
 
 const { NormalAuth } = require("./normalAuth");
-class Authenticate{
+class Authenticate {
 
     static NORMAL = 1;
 
     constructor(strategy) {
         this.strategy = strategy;
-    } 
+    }
 
     setStrategy(strategy) {
         this.strategy = strategy;
-    }   
+    }
 
     setStrategy(strategyCode) {
-        switch(strategyCode) {
+        switch (strategyCode) {
             case Authenticate.NORMAL:
                 this.strategy = new NormalAuth();
                 break;
@@ -24,11 +24,12 @@ class Authenticate{
         }
     }
 
-    async login(req, res){
+    async login(req, res) {
+        console.log(req.body)
         const authRes = await this.strategy.login(req);
         console.log(authRes)
         if (authRes.isAuthenticated) {
-            req.session.user = {uid: authRes.user.id, username: authRes.user.username, scope: authRes.user.roleId}
+            req.session.user = { uid: authRes.user.id, username: authRes.user.username, scope: authRes.user.roleId }
             res.json({
                 isAuthenticated: true,
                 scope: authRes.user.roleId,
@@ -76,7 +77,7 @@ class Authenticate{
     async signup(req, res) {
         await this.strategy.signup(req, res);
     }
-    
+
     signout(req, res) {
         req.session.destroy((err) => {
             if (err) {
